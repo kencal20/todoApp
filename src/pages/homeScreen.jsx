@@ -4,7 +4,10 @@ import React from 'react'
 export default function HomeScreen() {
     return (
         <View style={styles.container}>
-            <TextInput placeholder='Enter your Goal here' style={styles.input} />
+            <TextInput 
+            placeholder='Enter your Goal here'
+            placeholderTextColor={'white'}
+            style={styles.input} />
         </View>
     )
 }
