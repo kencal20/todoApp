@@ -1,14 +1,18 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 
-export default function GoalInput({handleAddOnGoal}) {
+export default function GoalInput({ handleAddOnGoal }) {
     const [goalInput, setGoalInput] = useState('');
 
     const handleInputChange = (input) => {
         setGoalInput(input);
     };
 
-    const handleAddGoal =()=> {
+    const handleAddGoal = () => {
+        if (goalInput.trim() == '') {
+            alert('Input field cannot be left unattented')
+            return
+        }
         handleAddOnGoal(goalInput)
         setGoalInput('')
     }
