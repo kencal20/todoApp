@@ -4,24 +4,18 @@ import GoalItem from '../components/goalItem';
 import GoalInput from '../components/goalInput';
 
 export default function HomeScreen() {
-    const [goalInput, setGoalInput] = useState('');
-
-    const handleInputChange = (input) => {
-        setGoalInput(input);
-    };
 
     const [goalItem, setGoalItem] = useState([]);
 
-    const handleAddGoal = () => {
-        if (goalInput.trim() !== '') {
-            setGoalItem(prev => [...prev, { id: Date.now().toString(), goal: goalInput }]);
-            setGoalInput('');
-        }
+    const handleAddGoal = (goalInput) => {
+        setGoalItem(prev => [...prev, { id: Date.now().toString(), goal: goalInput }]);
+
+
     };
 
     return (
         <View style={styles.container}>
-           <GoalInput/>
+            <GoalInput handleAddOnGoal={handleAddGoal} />
             <FlatList
                 data={goalItem}
                 keyExtractor={(item) => item.id}

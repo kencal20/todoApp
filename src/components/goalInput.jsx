@@ -1,7 +1,17 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
-import React from 'react'
+import React,{useState} from 'react'
 
-export default function GoalInput() {
+export default function GoalInput({handleAddOnGoal}) {
+    const [goalInput, setGoalInput] = useState('');
+
+    const handleInputChange = (input) => {
+        setGoalInput(input);
+    };
+
+    const handleAddGoal =()=> {
+        handleAddOnGoal(goalInput)
+        setGoalInput('')
+    }
     return (
         <>
             <TextInput
