@@ -1,8 +1,13 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
+import { useNavigation } from '@react-navigation/native'
 
 export default function GoalItem({ item, onDelete }) {
 
+    const navigation = useNavigation()
+    function navigateToPath() {
+        navigation.navigate('itemDetails', { item: item })
+    }
     return (
         <View style={styles.itemContainer}>
             <View>
@@ -24,8 +29,8 @@ export default function GoalItem({ item, onDelete }) {
                 </TouchableOpacity>
 
 
-                <TouchableOpacity style={styles.deleteButton} onPress={onDelete}>
-                    <Text style={styles.deleteButtonText}>Edit</Text>
+                <TouchableOpacity style={styles.editButton} onPress={navigateToPath}>
+                    <Text style={styles.editButtonText}>Edit</Text>
                 </TouchableOpacity>
 
             </View>
@@ -48,7 +53,7 @@ const styles = StyleSheet.create({
     header: {
         fontSize: 22,
         fontWeight: 'bold',
-        marginVertical:10
+        marginVertical: 10
 
     },
     item: {
@@ -67,6 +72,19 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     deleteButtonText: {
+        fontSize: 22,
+        color: 'white',
+        padding: 10,
+
+
+    },
+    editButton: {
+        backgroundColor: 'green',
+        borderRadius: 10,
+        marginVertical: 20,
+        alignItems: 'center',
+    },
+    editButtonText: {
         fontSize: 22,
         color: 'white',
         padding: 10,
