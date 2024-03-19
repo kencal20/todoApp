@@ -1,7 +1,7 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal } from 'react-native'
 import React, { useState } from 'react'
 
-export default function GoalInput({ handleAddOnGoal }) {
+export default function GoalInput({ handleAddOnGoal, toggleModal, modalIsOpen }) {
     const [goalInput, setGoalInput] = useState('');
 
     const handleInputChange = (input) => {
@@ -15,12 +15,16 @@ export default function GoalInput({ handleAddOnGoal }) {
         }
         handleAddOnGoal(goalInput)
         setGoalInput('')
+        toggleModal()
+    }
+
+    function handleToggleModal() {
+        toggleModal()
     }
     return (
-        <Modal visible={false} animationType="fade">
+        <Modal visible={modalIsOpen} animationType="slide" >
             <TextInput
                 placeholder='Enter your Goal here'
-                placeholderTextColor='#FFFFFF'
                 style={styles.input}
                 onChangeText={handleInputChange}
                 value={goalInput}
@@ -29,13 +33,15 @@ export default function GoalInput({ handleAddOnGoal }) {
                 <Text style={styles.buttonText}>Add Goal</Text>
             </TouchableOpacity>
 
+            <TouchableOpacity style={styles.button} onPress={handleToggleModal}>
+                <Text style={styles.buttonText}>Close Modal</Text>
+            </TouchableOpacity>
         </Modal>
     )
 }
 
 const styles = StyleSheet.create({
     input: {
-        color: '#FFFFFF', // White color
         borderWidth: 1,
         padding: 20,
         fontSize: 20,

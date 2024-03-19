@@ -1,24 +1,34 @@
 import React, { useState } from 'react';
-import { View,  StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet, FlatList, Button } from 'react-native';
 import GoalItem from '../components/goalItem';
 import GoalInput from '../components/goalInput';
 
-export default function HomeScreen() {
-
+export default function HomeScreen() { 
     const [goalItem, setGoalItem] = useState([]);
+    const [modalIsOpen, setModalIsOpen] = useState(false)
 
     const handleAddGoal = (goalInput) => {
         setGoalItem(prev => [...prev, { id: Date.now().toString(), goal: goalInput }]);
     };
 
-
     const handleDeleteGoal = (id) => {
         setGoalItem(prev => prev.filter(item => item.id !== id));
     };
 
+
+
+    const toggleModal = () => {
+        setModalIsOpen(!modalIsOpen)
+    }
+
     return (
         <View style={styles.container}>
-            <GoalInput handleAddOnGoal={handleAddGoal} />
+            <Button title="Add Goal" onPress={toggleModal} />
+            <GoalInput
+                handleAddOnGoal={handleAddGoal}
+                toggleModal={toggleModal}
+                modalIsOpen={modalIsOpen}
+            />
             <FlatList
                 data={goalItem}
                 keyExtractor={(item) => item.id}
