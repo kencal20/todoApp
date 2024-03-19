@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal } from 'react-native'
 import React, { useState } from 'react'
 
 export default function GoalInput({ handleAddOnGoal }) {
@@ -17,7 +17,7 @@ export default function GoalInput({ handleAddOnGoal }) {
         setGoalInput('')
     }
     return (
-        <>
+        <Modal visible={false} animationType="fade">
             <TextInput
                 placeholder='Enter your Goal here'
                 placeholderTextColor='#FFFFFF'
@@ -29,7 +29,7 @@ export default function GoalInput({ handleAddOnGoal }) {
                 <Text style={styles.buttonText}>Add Goal</Text>
             </TouchableOpacity>
 
-        </>
+        </Modal>
     )
 }
 
