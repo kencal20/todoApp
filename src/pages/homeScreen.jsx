@@ -9,8 +9,11 @@ export default function HomeScreen() {
 
     const handleAddGoal = (goalInput) => {
         setGoalItem(prev => [...prev, { id: Date.now().toString(), goal: goalInput }]);
+    };
 
 
+    const handleDeleteGoal = (id) => {
+        setGoalItem(prev => prev.filter(item => item.id !== id));
     };
 
     return (
@@ -20,7 +23,7 @@ export default function HomeScreen() {
                 data={goalItem}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
-                    <GoalItem item={item} />
+                    <GoalItem item={item} onDelete={() => handleDeleteGoal(item.id)} />
                 )}
             />
         </View>
