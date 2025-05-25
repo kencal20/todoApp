@@ -1,8 +1,10 @@
-import NavbarComponent from "../components/navbarComponent";
-import HomeScreen from "../pages/homeScreen";
-import CardComponent from "../components/cardComponent";
+import NavbarComponent from "../../src/components/navbarComponent";
+import HomeScreen from "../../src/pages/homeScreen";
+import CardComponent from "../../src/components/cardComponent";
+import AddTodo from "../../src/pages/addTodo";
 export{
     NavbarComponent,
     HomeScreen,
-    CardComponent
+    CardComponent,
+    AddTodo
 }
