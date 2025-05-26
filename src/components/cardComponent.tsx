@@ -1,6 +1,7 @@
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { TbEdit } from "react-icons/tb";
 import { componentProps } from "./types";
+import { Link } from "react-router-dom";
 
 type Props = componentProps['card']
 
@@ -62,13 +63,13 @@ export default function CardComponent({
             {(onEdit || onDelete) && (
               <div className="flex space-x-3 ml-4">
                 {onEdit && (
-                  <button
-                    onClick={onEdit}
+                  <Link
+                    to={`/edit/${todo.id}`}
                     className="p-2 rounded-full hover:bg-gray-100 transition-colors"
                     aria-label="Edit"
                   >
                     <TbEdit className="text-blue-500 text-xl hover:scale-110 transition-transform" />
-                  </button>
+                  </Link>
                 )}
                 {onDelete && (
                   <button

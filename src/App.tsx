@@ -1,11 +1,8 @@
-// App.tsx
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { NavbarComponent, HomeScreen, AddTodo,componentProps } from './constants/path';
+import { NavbarComponent, HomeScreen, AddTodo, componentProps,EditTodo } from './constants/path';
 
-type Props = {};
-
-export default function App({ }: Props) {
+export default function App() {
   const [todos, setTodos] = useState<componentProps['todo'][]>([
     {
       id: "1",
@@ -31,12 +28,17 @@ export default function App({ }: Props) {
     setTodos(prev => prev.filter(todo => todo.id !== id));
   };
 
+  const editTodo = (updatedTodo: componentProps['todo']) => {
+    setTodos(prev => prev.map(todo => (todo.id === updatedTodo.id ? updatedTodo : todo)));
+  };
+
   return (
     <BrowserRouter>
       <NavbarComponent />
       <Routes>
-        <Route path="/" element={<HomeScreen todos={todos} onDelete={deleteTodo} />} />
+        <Route path="/" element={<HomeScreen todos={todos} onDelete={deleteTodo} onEdit={(id) => id} />} />
         <Route path="/add" element={<AddTodo onAdd={addTodo} />} />
+        <Route path="/edit/:id" element={<EditTodo todos={todos} onEdit={editTodo} />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,6 +1,6 @@
 
  type Todo = {
-    id: string;
+    id?: string;
     title: string;
     description: string;
     priority?: "low" | "medium" | "high";
@@ -11,7 +11,7 @@
 }
 
 type Card={
-    todo: Omit<Todo, 'id' | 'completed' | 'createdAt' | 'updatedAt' | 'dueDate'>;
+    todo: Omit<Todo,   'completed' | 'createdAt' | 'updatedAt' | 'dueDate'>;
     onEdit?: () => void;
     onDelete?: () => void;
     children?: React.ReactNode;
