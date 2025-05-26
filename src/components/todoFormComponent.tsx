@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { componentProps } from './types';
+import { componentProps } from '../constants/path'
 
 type Props = {
   form: Omit<componentProps['todo'], "id" | "completed">;

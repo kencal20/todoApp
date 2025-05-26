@@ -1,8 +1,7 @@
 // App.tsx
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { NavbarComponent, HomeScreen, AddTodo } from './constants/path';
-import { componentProps } from './components/types';
+import { NavbarComponent, HomeScreen, AddTodo,componentProps } from './constants/path';
 
 type Props = {};
 
