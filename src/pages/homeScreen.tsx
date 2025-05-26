@@ -1,5 +1,4 @@
-import CardComponent from "../components/cardComponent";
-import { componentProps } from "../components/types";
+import { componentProps,CardComponent } from "../constants/path";
 
 type HomeScreenProps = {
   todos: componentProps['todo'][];
@@ -12,17 +11,16 @@ export default function HomeScreen({ todos, onDelete }: HomeScreenProps) {
       <h1 className="text-2xl font-bold mb-4">My Todos</h1>
       
       {todos.length === 0 ? (
-        <CardComponent
-          title="No Todos Found"
-          subtitle="Create your first todo to get started"
-          variant="empty"
-        />
+     <CardComponent
+     todo={{ title: "No todos yet", description: "Create new Todo"  }}
+     variant="empty"
+   />
+   
       ) : (
         todos.map(todo => (
           <CardComponent 
             key={todo.id}
-            title={todo.title}
-            subtitle={todo.description}
+            todo={todo}
             onEdit={() => {}}
             onDelete={() => onDelete(todo.id)}
           />

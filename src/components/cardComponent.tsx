@@ -1,22 +1,17 @@
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { TbEdit } from "react-icons/tb";
+import { componentProps } from "./types";
 
-type Props = {
-  title: string;
-  subtitle?: string;
-  onEdit?: () => void;
-  onDelete?: () => void;
-  children?: React.ReactNode;
-  variant?: 'default' | 'empty' | 'form';
-};
+type Props = componentProps['card']
+
+
 
 export default function CardComponent({
-  title,
-  subtitle,
+  todo,
   onEdit,
   onDelete,
   children,
-  variant = 'default'
+  variant = 'default',
 }: Props) {
   return (
     <div className="space-y-4 mb-10">
@@ -28,17 +23,17 @@ export default function CardComponent({
         {variant === 'empty' ? (
           <div className="flex flex-col items-center justify-center h-full">
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
-              {title}
+              {todo.title}
             </h5>
             <p className="font-normal text-gray-700 mb-4">
-              {subtitle || "No items found"}
+              {todo.description}
             </p>
             {children}
           </div>
         ) : variant === 'form' ? (
           <div className="space-y-4">
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
-              {title}
+              {todo.title}
             </h5>
             {children}
           </div>
@@ -46,19 +41,28 @@ export default function CardComponent({
           <div className="flex h-full justify-between items-start">
             <div className="flex-1">
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
-                {title}
+                {todo.title}
               </h5>
-              {subtitle && (
+              {todo.description && (
                 <p className="font-normal text-gray-700">
-                  {subtitle}
+                  {todo.description.length > 100
+                    ? `${todo.description.slice(0, 100)}...`
+                    : todo.description}
                 </p>
               )}
+              {/* Priority Tag */}
+              <span className={`inline-block mt-2 px-3 py-1 text-sm font-semibold text-white rounded-full ${todo.priority === 'high' ? 'bg-red-500' :
+                todo.priority === 'medium' ? 'bg-yellow-500' :
+                  'bg-green-500'
+                }`}>
+                {todo.priority}
+              </span>
             </div>
-            
+
             {(onEdit || onDelete) && (
               <div className="flex space-x-3 ml-4">
                 {onEdit && (
-                  <button 
+                  <button
                     onClick={onEdit}
                     className="p-2 rounded-full hover:bg-gray-100 transition-colors"
                     aria-label="Edit"
@@ -77,8 +81,8 @@ export default function CardComponent({
                 )}
               </div>
             )}
-          <br />
-          <br />
+            <br />
+            <br />
           </div>
         )}
       </div>
