@@ -4,13 +4,15 @@ import CardComponent from "../../src/components/cardComponent";
 import AddTodo from "../../src/pages/addTodo";
 import TodoFormComponent from "../components/todoFormComponent";
 import EditTodo from "../pages/editTodo";
+import CompletedTodo from "../pages/completedTodo";
 export{
     NavbarComponent,
     HomeScreen,
     CardComponent,
     AddTodo,
     TodoFormComponent,
-    EditTodo
+    EditTodo,
+    CompletedTodo
 }
 
 export type { componentProps } from "../components/types";
