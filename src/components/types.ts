@@ -11,7 +11,7 @@
 }
 
 type Card={
-    todo: Omit<Todo,   'completed' | 'createdAt' | 'updatedAt' | 'dueDate'>;
+    todo: Omit<Todo,    | 'createdAt' | 'updatedAt' | 'dueDate'>;
     onEdit?: () => void;
     onDelete?: () => void;
     children?: React.ReactNode;

@@ -1,16 +1,20 @@
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { TbEdit } from "react-icons/tb";
+import { FiCheckCircle, FiArrowLeftCircle } from "react-icons/fi";
 import { componentProps } from "./types";
 import { Link } from "react-router-dom";
 
-type Props = componentProps['card']
-
-
+type Props = componentProps['card'] & {
+  onComplete?: () => void;
+  onRestore?: () => void;
+};
 
 export default function CardComponent({
   todo,
   onEdit,
   onDelete,
+  onComplete,
+  onRestore,
   children,
   variant = 'default',
 }: Props) {
@@ -52,15 +56,17 @@ export default function CardComponent({
                 </p>
               )}
               {/* Priority Tag */}
-              <span className={`inline-block mt-2 px-3 py-1 text-sm font-semibold text-white rounded-full ${todo.priority === 'high' ? 'bg-red-500' :
-                todo.priority === 'medium' ? 'bg-yellow-500' :
-                  'bg-green-500'
-                }`}>
-                {todo.priority}
-              </span>
+              {todo.priority && (
+                <span className={`inline-block mt-2 px-3 py-1 text-sm font-semibold text-white rounded-full ${todo.priority === 'high' ? 'bg-red-500' :
+                  todo.priority === 'medium' ? 'bg-yellow-500' :
+                    'bg-green-500'
+                  }`}>
+                  {todo.priority}
+                </span>
+              )}
             </div>
 
-            {(onEdit || onDelete) && (
+            {(onEdit || onDelete || onComplete || onRestore) && (
               <div className="flex space-x-3 ml-4">
                 {onEdit && (
                   <Link
@@ -80,10 +86,26 @@ export default function CardComponent({
                     <RiDeleteBin6Line className="text-red-500 text-xl hover:scale-110 transition-transform" />
                   </button>
                 )}
+                {onComplete && !todo.completed && (
+                  <button
+                    onClick={onComplete}
+                    className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+                    aria-label="Complete"
+                  >
+                    <FiCheckCircle className="text-green-500 text-xl hover:scale-110 transition-transform" />
+                  </button>
+                )}
+                {onRestore && todo.completed && (
+                  <button
+                    onClick={onRestore}
+                    className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+                    aria-label="Restore"
+                  >
+                    <FiArrowLeftCircle className="text-blue-500 text-xl hover:scale-110 transition-transform" />
+                  </button>
+                )}
               </div>
             )}
-            <br />
-            <br />
           </div>
         )}
       </div>
