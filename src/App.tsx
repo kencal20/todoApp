@@ -32,6 +32,7 @@ export default function App() {
   };
 
   const deleteTodo = (id: string) => {
+    if (window.confirm("Are you sure you want to delete this todo?")) 
     setTodos((prev) => prev.filter((todo) => todo.id !== id));
   };
 
@@ -42,6 +43,7 @@ export default function App() {
   };
 
   const completeTodo = (id: string) => {
+    if (window.confirm("Are you sure you want to complete this todo?"))
     setTodos((prev) =>
       prev.map((todo) =>
         todo.id === id ? { ...todo, completed: true } : todo
