@@ -19,18 +19,19 @@ export default function CardComponent({
   variant = 'default',
 }: Props) {
   return (
-    <div className="space-y-4 mb-10">
+    <div className="mb-10 space-y-4">
       <div className={`
-        w-full p-6 bg-white border border-gray-200 rounded-lg shadow 
-        hover:shadow-lg transition-shadow
-        ${variant === 'empty' ? 'text-center py-12' : ''}
-      `}>
+  w-full p-6 bg-white border border-gray-200 rounded-lg shadow 
+  hover:shadow-lg transition-shadow
+  ${variant === 'empty' ? 'h-[70vh] flex flex-col justify-center items-center text-center space-y-4' : ''}
+
+`}>
         {variant === 'empty' ? (
-          <div className="flex flex-col items-center justify-center h-full">
-            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
+          <div className="flex flex-col items-center justify-center space-y-4">
+            <h5 className="text-2xl font-bold tracking-tight text-gray-900">
               {todo.title}
             </h5>
-            <p className="font-normal text-gray-700 mb-4">
+            <p className="font-normal text-gray-700">
               {todo.description}
             </p>
             {children}
@@ -55,7 +56,6 @@ export default function CardComponent({
                     : todo.description}
                 </p>
               )}
-              {/* Priority Tag */}
               {todo.priority && (
                 <span className={`inline-block mt-2 px-3 py-1 text-sm font-semibold text-white rounded-full ${todo.priority === 'high' ? 'bg-red-500' :
                   todo.priority === 'medium' ? 'bg-yellow-500' :
