@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { componentProps, CardComponent } from "../constants/path";
 
 type HomeScreenProps = {
@@ -23,7 +24,14 @@ export default function HomeScreen({
         <CardComponent
           todo={{ title: "No todos yet", description: "Create new Todo" }}
           variant="empty"
-        />
+        >
+          <Link
+            className="py-2 px-4  text-white bg-gray-700 duration-200 rounded-md space-x-2"
+            to="/add">
+            Add New Todo
+          </Link>
+
+        </CardComponent>
       ) : (
         activeTodos.map((todo) => (
           <CardComponent
