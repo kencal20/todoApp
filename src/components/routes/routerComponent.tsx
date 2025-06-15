@@ -13,7 +13,7 @@ import {
   useAuth
 } from "../../constants/path";
 
-type  Props = componentProps['routerProps']
+type Props = componentProps["routerProps"];
 
 export default function RouterComponent({
   todos,
@@ -23,12 +23,25 @@ export default function RouterComponent({
   completeTodo,
   restoreTodo,
 }: Props) {
+  const { isAuthenticated, isLoading } = useAuth();
 
-    const { isAuthenticated } = useAuth();
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-xl text-gray-600">Loading...</p>
+      </div>
+    );
+  }
+
   return (
-    <BrowserRouter>
+    <>
       <NavbarComponent />
       <Routes>
+        {/* Public routes */}
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/register" element={<RegisterForm />} />
+
+        {/* Authenticated routes */}
         {isAuthenticated ? (
           <>
             <Route
@@ -59,13 +72,9 @@ export default function RouterComponent({
             />
           </>
         ) : (
-          <>
-            <Route path="/login" element={<LoginForm />} />
-            <Route path="/register" element={<RegisterForm />} />
-            <Route path="*" element={<Navigate to="/login" />} />
-          </>
+          <Route path="*" element={<Navigate to="/login" />} />
         )}
       </Routes>
-    </BrowserRouter>
+    </>
   );
 }

@@ -1,4 +1,3 @@
-
 type Todo = {
     id?: string;
     title: string;
@@ -8,6 +7,7 @@ type Todo = {
     createdAt?: string;
     updatedAt?: string;
     dueDate?: string;
+    userId?: string; // Add userId to associate todos with users
 }
 
 type Card = {
