@@ -5,6 +5,12 @@ import AddTodo from "../../src/pages/addTodo";
 import TodoFormComponent from "../components/todoFormComponent";
 import EditTodo from "../pages/editTodo";
 import CompletedTodo from "../pages/completedTodo";
+import {LoginForm} from "../pages/login";
+import {RegisterForm} from "../pages/register";
+import { AuthProvider,useAuth } from "../context/authContext";
+import { databases,account } from "../lib/appwrite";
+
+
 export{
     NavbarComponent,
     HomeScreen,
@@ -12,7 +18,15 @@ export{
     AddTodo,
     TodoFormComponent,
     EditTodo,
-    CompletedTodo
+    CompletedTodo,
+    LoginForm,
+    RegisterForm,
+    AuthProvider,
+    useAuth,
+    databases,
+    account,
+    
+    
 }
 
 export type { componentProps } from "../components/types";
