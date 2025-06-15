@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { useAuth, account } from "../constants/path";
+import {  account } from "../constants/path";
 import { ID } from "appwrite";
+import { Link, useNavigate } from "react-router-dom";
 
 export function RegisterForm() {
-  const { setUser, setIsAuthenticated } = useAuth();
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -12,27 +13,46 @@ export function RegisterForm() {
     gender: ""
   });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    setError(null);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    console.log(form);
+    setError(null);
+    
     try {
       const { email, password, phoneNumber, gender, fullname } = form;
+      
+      // Create account
       await account.create(ID.unique(), email, password, fullname);
-      await account.createEmailPasswordSession(email, password);
-      if (phoneNumber) await account.updatePhone(phoneNumber, password);
-      if (gender) await account.updatePrefs({ gender });
-      const accountData = await account.get();
-      setUser(accountData);
-      if (setIsAuthenticated) setIsAuthenticated(true);
-    } catch (error:any) {
-      alert(`Registration failed. Please try again..${error.message}`);
-      console.log("Registration error:", error);
+      
+      // Update phone if provided
+      if (phoneNumber) {
+        await account.updatePhone(phoneNumber, password);
+      }
+      
+      // Update preferences if gender provided
+      if (gender) {
+        await account.updatePrefs({ gender });
+      }
+      
+      // Redirect to login page instead of auto-login
+      navigate("/login", { 
+        state: { 
+          registeredEmail: email,
+          message: "Registration successful! Please log in." 
+        } 
+        
+      });
+      
+    } catch (error: any) {
+      setError(error.message || "Registration failed. Please try again.");
+      console.error("Registration error:", error);
     } finally {
       setLoading(false);
     }
@@ -47,11 +67,22 @@ export function RegisterForm() {
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             Already have an account?{' '}
-            <a href="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
+            <Link to="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
               Sign in
-            </a>
+            </Link>
           </p>
         </div>
+        
+        {error && (
+          <div className="rounded-md bg-red-50 p-4">
+            <div className="flex">
+              <div className="ml-3">
+                <h3 className="text-sm font-medium text-red-800">{error}</h3>
+              </div>
+            </div>
+          </div>
+        )}
+
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="rounded-md shadow-sm space-y-4">
             <div>
@@ -64,6 +95,7 @@ export function RegisterForm() {
                 required
                 className="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Full Name"
+                value={form.fullname}
                 onChange={handleChange}
               />
             </div>
@@ -77,6 +109,7 @@ export function RegisterForm() {
                 required
                 className="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Email address"
+                value={form.email}
                 onChange={handleChange}
               />
             </div>
@@ -90,6 +123,7 @@ export function RegisterForm() {
                 required
                 className="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Password"
+                value={form.password}
                 onChange={handleChange}
               />
             </div>
@@ -102,6 +136,7 @@ export function RegisterForm() {
                 autoComplete="tel"
                 className="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Phone Number (optional)"
+                value={form.phoneNumber}
                 onChange={handleChange}
               />
             </div>
@@ -111,6 +146,7 @@ export function RegisterForm() {
                 id="gender"
                 name="gender"
                 className="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                value={form.gender}
                 onChange={handleChange}
               >
                 <option value="">Select Gender (optional)</option>
@@ -142,4 +178,4 @@ export function RegisterForm() {
       </div>
     </div>
   );
-}
+} 
