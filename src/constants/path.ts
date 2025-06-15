@@ -9,6 +9,7 @@ import {LoginForm} from "../pages/login";
 import {RegisterForm} from "../pages/register";
 import { AuthProvider,useAuth } from "../context/authContext";
 import { databases,account } from "../lib/appwrite";
+import RouterComponent from "../components/routes/routerComponent";
 
 
 export{
@@ -25,6 +26,7 @@ export{
     useAuth,
     databases,
     account,
+    RouterComponent
     
     
 }
