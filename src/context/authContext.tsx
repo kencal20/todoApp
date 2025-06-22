@@ -6,36 +6,26 @@ interface AuthContextType {
   current: any;
   logout: () => Promise<void>;
   setUser: (user: any) => void;
+  setIsAuthenticated: (value: boolean) => void;
   user?: any;
   isAuthenticated: boolean;
-  setIsAuthenticated: (value: boolean) => void;
   isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUserState] = useState<any>(null);
-  const [isAuthenticated, setIsAuthenticatedState] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-
-  // Unified setter for user and authentication state
-  const setUser = (userData: any) => {
-    setUserState(userData);
-    setIsAuthenticatedState(!!userData);
-  };
-
-  const setIsAuthenticated = (value: boolean) => {
-    setIsAuthenticatedState(value);
-    if (!value) setUserState(null);
-  };
 
   const logout = async () => {
     setIsLoading(true);
     try {
       await account.deleteSession("current");
       setUser(null);
+      setIsAuthenticated(false);
       navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error);
@@ -49,8 +39,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const accountData = await account.get();
       setUser(accountData);
+      setIsAuthenticated(!!accountData);
     } catch (error) {
       setUser(null);
+      setIsAuthenticated(false);
     } finally {
       setIsLoading(false);
     }
