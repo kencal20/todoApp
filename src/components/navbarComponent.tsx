@@ -1,11 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { FaPlus } from "react-icons/fa";
 import { FiCheckCircle, FiHome, FiLogOut, FiUser, FiMail, FiKey } from "react-icons/fi";
 import { LuSquareCheckBig } from "react-icons/lu";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../constants/path";
 
-type Props = {};
 
 type NavigationLink = {
   name: string;
@@ -13,18 +12,18 @@ type NavigationLink = {
   icon: React.JSX.Element;
 };
 
-export default function NavbarComponent({}: Props) {
+export default function NavbarComponent() {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, isAuthenticated, logout } = useAuth();
   const [active, setActive] = useState("All Todos");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const navigationLinks: NavigationLink[] = [
+  const navigationLinks: NavigationLink[] = useMemo(() => [
     { name: "All Todos", to: "/", icon: <FiHome className="text-lg" /> },
     { name: "Add Todo", to: "/add", icon: <FaPlus className="text-lg" /> },
     { name: "Completed", to: "/completed", icon: <FiCheckCircle className="text-lg" /> },
-  ];
+  ], [])
 
   useEffect(() => {
     // Sync active state with current route
@@ -33,7 +32,7 @@ export default function NavbarComponent({}: Props) {
       setActive(currentLink.name);
       localStorage.setItem("activeLink", currentLink.name);
     }
-  }, [location.pathname]);
+  }, [location.pathname, navigationLinks]);
 
   const handleLogout = async () => {
     try {
@@ -97,7 +96,7 @@ export default function NavbarComponent({}: Props) {
           {isAuthenticated && user && (
             <div className="relative">
               <button
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                onClick={() => setIsDropdownOpen(prev => !prev)}
                 className="flex items-center justify-center w-10 h-10 rounded-full bg-indigo-600 text-white font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 aria-label="User menu"
                 aria-haspopup="true"
